@@ -1,6 +1,8 @@
+@import url('game-page');
+
 @font-face {
-    font-family: "stratosskyengweb-regular";
-    src: url("fonts/stratosskyengweb-regular.woff") format("woff");
+    font-family: stratosskyengweb-regular;
+    src: url('fonts/stratosskyengweb-regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
 }
@@ -12,8 +14,13 @@
 }
 
 body {
-    font-family: "stratosskyengweb-regular", sans-serif;
-    background-color: #004980;
+    font-family: stratosskyengweb-regular, sans-serif;
+    background-color: #048;
+}
+
+.center {
+    padding-left: calc(50% - 24px);
+    padding-right: calc(50% - 24px);
 }
 
 .container {
@@ -28,7 +35,7 @@ body {
     width: 480px;
     height: 460px;
     border-radius: 12px;
-    background-color: #C2F5FF;
+    background-color: #c2f5ff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,36 +55,38 @@ body {
         justify-content: space-between;
         margin-bottom: 67px;
 
-        input[type="radio"] {
+        input[type='radio'] {
             display: none;
         }
+
         label {
             width: 98px;
             height: 98px;
             border-radius: 12px;
-            background-color: #FFFFFF;
+            background-color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0080C1;
+            color: #0080c1;
             font-size: 64px;
             cursor: pointer;
         }
-        input[type="radio"]:checked+label {
-            background-color: #7AC100;
-            color: #FFFFFF;
+
+        input[type='radio']:checked + label {
+            background-color: #7ac100;
+            color: #fff;
         }
     }
 
     &__start-button {
         width: 246px;
         height: 50px;
-        color: #ffffff;
-        background-color: #7AC100;
+        color: #fff;
+        background-color: #7ac100;
         border-radius: 12px;
         border-color: transparent;
         font-size: 24px;
-        font-family: "stratosskyengweb-regular";
+        font-family: stratosskyengweb-regular, sans-serif;
 
         &:hover {
             cursor: pointer;
