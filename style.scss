@@ -1,4 +1,5 @@
 @import url('game-page');
+@import url('result-page');
 
 @font-face {
     font-family: stratosskyengweb-regular;
@@ -16,11 +17,6 @@
 body {
     font-family: stratosskyengweb-regular, sans-serif;
     background-color: #048;
-}
-
-.center {
-    padding-left: calc(50% - 24px);
-    padding-right: calc(50% - 24px);
 }
 
 .container {

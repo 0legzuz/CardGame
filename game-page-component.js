@@ -1,14 +1,54 @@
 import { generateCards, shuffleCards } from './game-logics.js';
+import { goToPage, setTime } from './index.js';
+import { DEFEAT_PAGE, START_PAGE, VICTORY_PAGE } from './routes.js';
+
+function timer(minutes, seconds, countdown, timerEl) {
+    function formatTime(num) {
+        return num < 10 ? '0' + num : num.toString();
+    }
+
+    function updateTimer() {
+        timerEl.innerHTML = `${formatTime(minutes)}.${formatTime(seconds)}`;
+    }
+
+    function tick() {
+        if (countdown) {
+            if (seconds === 0 && minutes > 0) {
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+        } else {
+            if (seconds < 59) {
+                seconds++;
+            } else {
+                minutes++;
+                seconds = 0;
+            }
+        }
+
+        updateTimer();
+
+        if (countdown && minutes === 0 && seconds === 0) {
+            clearInterval(intervalId);
+        }
+    }
+
+    updateTimer();
+    const intervalId = setInterval(tick, 1000);
+    return () => clearInterval(intervalId);
+}
 
 export function renderGamePageComponent({ appEl, difficulty }) {
-    // 3. Функция отображения карт на игровом поле
+    let timerStop;
     function renderCards(cards, gameEl) {
         const cardsHTML = cards
             .map(
                 (card) => `
     <div class="game__card" data-suit="${card.suit}" data-rank="${card.rank}">
-      <img src="images/shirt.jpg" alt="Футболка" class="game__card-front">
-      <img src="images/${card.rank} ${card.suit}.jpg" alt="Обратная сторона карточки" class="game__card-back">
+    <img src="images/shirt.jpg" alt="Футболка" class="game__card-front">
+    <img src="images/${card.rank} ${card.suit}.jpg" alt="Обратная сторона карточки" class="game__card-back">
     </div>`,
             )
             .join('');
@@ -16,6 +56,7 @@ export function renderGamePageComponent({ appEl, difficulty }) {
         gameEl.querySelector('.game__cards').innerHTML = cardsHTML;
     }
 
+    // Разметка таймера и кнопки
     appEl.innerHTML = `
     <div class="game ">
     <div class="game__header">
@@ -31,38 +72,55 @@ export function renderGamePageComponent({ appEl, difficulty }) {
     <div class="game__cards">
     </div>
     </div>`;
+    const timerEl = document.querySelector('.game__timer-value');
 
+    // Обнуление карт для перетосовки
     let firstCard = null;
     let secondCard = null;
-
     let foundPairs = 0;
+    const gameEl = document.querySelector('.game');
+    // Отключение нажатий
+    let canClick = false;
 
+    // Изменение стиля разметки под 2-й уровень
     if (difficulty === '2') {
         document.querySelector('.game__cards').style.width = '750px';
     }
 
+    // Перетосовка карт
     const shuffledCards = shuffleCards(generateCards(difficulty));
 
-    const gameEl = document.querySelector('.game');
-
+    // Отрисовка перетосованных карт
     renderCards(shuffledCards, gameEl);
 
-    let canClick = false;
-
+    // Показ карт для запоминания
     setTimeout(() => {
         gameEl.querySelectorAll('.game__card').forEach((cardEl) => {
             cardEl.querySelector('.game__card-front').style.display = 'block';
             cardEl.querySelector('.game__card-back').style.display = 'none';
         });
+        // Включение нажатий
         canClick = true;
+        timerStop = timer(0, 0, false, timerEl);
     }, 5000);
 
+    timer(0, 5, true, timerEl);
+
+    document
+        .querySelector('.game__restart-button')
+        .addEventListener('click', () => {
+            goToPage(START_PAGE);
+            timerStop();
+        });
+
+    // Обработка кликов по карточкам
     document
         .querySelector('.game__cards')
         .addEventListener('click', (event) => {
             if (!canClick) {
                 return;
             }
+
             const cardEl = event.target.closest('.game__card');
 
             if (
@@ -83,27 +141,25 @@ export function renderGamePageComponent({ appEl, difficulty }) {
             } else if (!secondCard) {
                 secondCard = cardEl;
                 setTimeout(() => {
-                    // Если выбраны две карты, сравниваем их
                     if (
                         firstCard.dataset.suit === secondCard.dataset.suit &&
                         firstCard.dataset.rank === secondCard.dataset.rank
                     ) {
                         foundPairs++;
+                        if (foundPairs === difficulty * 3) {
+                            timerStop();
+                            setTime({ newTime: timerEl.textContent });
+                            goToPage(VICTORY_PAGE);
+                        }
                     } else {
-                        alert('Вы проиграли!');
+                        timerStop();
+                        setTime({ newTime: timerEl.textContent });
+                        goToPage(DEFEAT_PAGE);
                         foundPairs = 0;
                     }
 
-                    // Очищаем выбранные карты
                     firstCard = null;
                     secondCard = null;
-
-                    // Проверяем, выиграли или проиграли
-
-                    if (foundPairs === difficulty * 3) {
-                        alert('Вы победили!');
-                        foundPairs = 0;
-                    }
                 }, 300);
             }
         });

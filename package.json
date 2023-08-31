@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "webpack --mode development --watch",
         "format": "prettier --write ./",
         "lint:js": "eslint ./**/*.js",
         "lint:css": "stylelint \"**/*.scss\"",
@@ -22,15 +22,21 @@
     },
     "homepage": "https://github.com/0legzuz/CardGame#readme",
     "devDependencies": {
-        "eslint": "^8.47.0",
+        "eslint": "^8.48.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.0.0",
+        "eslint-webpack-plugin": "^4.0.1",
         "husky": "^8.0.3",
         "postcss-scss": "^4.0.7",
         "prettier": "^3.0.2",
         "stylelint": "^15.10.3",
         "stylelint-config-standard": "^34.0.0",
         "stylelint-prettier": "^4.0.2",
-        "stylelint-scss": "^5.1.0"
+        "stylelint-scss": "^5.1.0",
+        "webpack": "^5.88.2",
+        "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "easytimer.js": "^4.6.0"
     }
 }
