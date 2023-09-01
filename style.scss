@@ -1,5 +1,5 @@
-@import url('game-page');
-@import url('result-page');
+@import url('game-page.css');
+@import url('result-page.css');
 
 @font-face {
     font-family: stratosskyengweb-regular;
@@ -25,6 +25,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .selection-form {

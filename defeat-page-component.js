@@ -2,7 +2,13 @@ import { goToPage } from './index.js';
 import { START_PAGE } from './routes.js';
 
 export function renderDefeatPageComponent({ appEl, time }) {
-    appEl.innerHTML = `<div class="container">
+    // Создаем элемент `div` с классом `overlay`
+    const overlay = document.createElement('div');
+    overlay.className = 'overlay';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+
+    // Вставляем разметку страницы победы в элемент `overlay`
+    overlay.innerHTML = `<div class="container">
       <div class="defeat-form">
       <img src="images/dead.png">
         <div class="defeat-form__header">
@@ -20,9 +26,15 @@ export function renderDefeatPageComponent({ appEl, time }) {
       </div>
     </div>`;
 
-    document
+    // Добавляем `overlay` в элемент приложения `appEl`
+    appEl.appendChild(overlay);
+
+    // Удаляем `overlay` при нажатии на кнопку "Играть снова"
+    overlay
         .querySelector('.defeat-form__restart-button')
         .addEventListener('click', () => {
+            overlay.style.backgroundColor = '';
+            appEl.removeChild(overlay);
             goToPage(START_PAGE);
         });
 }
