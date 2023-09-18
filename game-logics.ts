@@ -1,8 +1,10 @@
+import { Card } from './game-page-component';
+
 const suits = ['крести', 'бубны', 'черви', 'пики'];
 const ranks = ['6', '7', '8', '9', '10', 'валет', 'дама', 'король', 'туз'];
 
 // 1. Функция генерации структуры данных с картами
-export function generateCards(difficulty) {
+export function generateCards(difficulty: number): Array<Card> {
     const pairCount = difficulty * 3;
     const cards = [];
     for (let i = 0; i < pairCount; i++) {
@@ -18,7 +20,7 @@ export function generateCards(difficulty) {
 }
 
 // 2. Функция перетасовки карт
-export function shuffleCards(cards) {
+export function shuffleCards(cards: Array<Card>): Array<Card> {
     for (let i = cards.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [cards[i], cards[j]] = [cards[j], cards[i]];

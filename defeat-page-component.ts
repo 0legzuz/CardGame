@@ -1,7 +1,13 @@
 import { goToPage } from './index';
 import { START_PAGE } from './routes';
 
-export function renderDefeatPageComponent({ appEl, time }) {
+export function renderDefeatPageComponent({
+    appEl,
+    time,
+}: {
+    appEl: HTMLElement;
+    time: number;
+}): void {
     // Создаем элемент `div` с классом `overlay`
     const overlay = document.createElement('div');
     overlay.className = 'overlay';

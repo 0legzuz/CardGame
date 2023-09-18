@@ -1,7 +1,11 @@
 import { goToPage, setDifficulty } from './index';
 import { GAME_PAGE } from './routes';
 
-export function renderStartPageComponent({ appEl }) {
+export function renderStartPageComponent({
+    appEl,
+}: {
+    appEl: HTMLElement;
+}): void {
     appEl.innerHTML = `
                <div class="container">
       <div class="selection-form">
@@ -22,15 +26,15 @@ export function renderStartPageComponent({ appEl }) {
       </div>
     </div>`;
 
-    const getSelectedDifficulty = () => {
+    const getSelectedDifficulty = (): number => {
         const radioButtons = document.querySelectorAll<HTMLInputElement>(
             ".selection-form__card-container input[type='radio']",
         );
-        let selectedDifficulty = 'easy';
+        let selectedDifficulty = 0;
         radioButtons.forEach((radio) => {
             const inputRadio = radio as HTMLInputElement;
             if (inputRadio.checked) {
-                selectedDifficulty = inputRadio.value;
+                selectedDifficulty = Number(inputRadio.value);
             }
         });
 
@@ -41,7 +45,7 @@ export function renderStartPageComponent({ appEl }) {
     );
 
     selectionFormStartButton.addEventListener('click', (event) => {
-        setDifficulty(getSelectedDifficulty());
+        setDifficulty({ newDifficulty: getSelectedDifficulty() });
         goToPage(GAME_PAGE);
         event.stopPropagation();
     });

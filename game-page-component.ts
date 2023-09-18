@@ -2,7 +2,17 @@ import { generateCards, shuffleCards } from './game-logics';
 import { goToPage, setTime } from './index';
 import { DEFEAT_PAGE, START_PAGE, VICTORY_PAGE } from './routes';
 
-function timer(minutes, seconds, countdown, timerEl) {
+export type Card = {
+    suit: string;
+    rank: number;
+};
+
+function timer(
+    minutes: number,
+    seconds: number,
+    countdown: boolean,
+    timerEl: HTMLElement,
+) {
     function formatTime(num) {
         return num < 10 ? '0' + num : num.toString();
     }
@@ -40,9 +50,15 @@ function timer(minutes, seconds, countdown, timerEl) {
     return () => clearInterval(intervalId);
 }
 
-export function renderGamePageComponent({ appEl, difficulty }) {
+export function renderGamePageComponent({
+    appEl,
+    difficulty,
+}: {
+    appEl: HTMLElement;
+    difficulty: number;
+}): void {
     let timerStop;
-    function renderCards(cards, gameEl) {
+    function renderCards(cards: Array<Card>, gameEl: HTMLElement) {
         const cardsHTML = cards
             .map(
                 (card) => `
@@ -72,18 +88,21 @@ export function renderGamePageComponent({ appEl, difficulty }) {
     <div class="game__cards">
     </div>
     </div>`;
-    const timerEl = document.querySelector('.game__timer-value');
+
+    const timerEl = document.querySelector(
+        '.game__timer-value',
+    ) as HTMLInputElement;
 
     // Обнуление карт для перетосовки
     let firstCard = null;
     let secondCard = null;
     let foundPairs = 0;
-    const gameEl = document.querySelector('.game');
+    const gameEl = document.querySelector('.game') as HTMLElement;
     // Отключение нажатий
     let canClick = false;
 
     // Изменение стиля разметки под 2-й уровень
-    if (difficulty === '2') {
+    if (difficulty === 2) {
         const gameCardsElement = document.querySelector(
             '.game__cards',
         ) as HTMLElement;
@@ -166,12 +185,12 @@ export function renderGamePageComponent({ appEl, difficulty }) {
                         foundPairs++;
                         if (foundPairs === difficulty * 3) {
                             timerStop();
-                            setTime({ newTime: timerEl.textContent });
+                            setTime({ newTime: Number(timerEl.textContent) });
                             goToPage(VICTORY_PAGE);
                         }
                     } else {
                         timerStop();
-                        setTime({ newTime: timerEl.textContent });
+                        setTime({ newTime: Number(timerEl.textContent) });
                         goToPage(DEFEAT_PAGE);
                         foundPairs = 0;
                     }

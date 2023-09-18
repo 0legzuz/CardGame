@@ -6,18 +6,22 @@ import { renderVictoryPageComponent } from './victory-page-component';
 
 export let page = null;
 
-export let difficulty = '';
-let time = '';
+export let difficulty = 0;
+let time = 0;
 
-export const setDifficulty = (newDifficulty) => {
-    difficulty = newDifficulty;
+export function setDifficulty({
+    newDifficulty,
+}: {
+    newDifficulty: number;
+}): void {
+    let difficulty: number = newDifficulty;
+}
+
+export const setTime = ({ newTime }: { newTime: number }): void => {
+    let time: number = newTime;
 };
 
-export const setTime = ({ newTime }) => {
-    time = newTime;
-};
-
-export const goToPage = (newPage) => {
+export const goToPage = (newPage: string): void => {
     if ([START_PAGE, GAME_PAGE, VICTORY_PAGE, DEFEAT_PAGE].includes(newPage)) {
         if (newPage === START_PAGE) {
             page = START_PAGE;
@@ -43,7 +47,7 @@ export const goToPage = (newPage) => {
     throw new Error('страницы не существует');
 };
 
-export const renderApp = () => {
+export const renderApp = (): void => {
     const appEl = document.getElementById('app');
     if (page === START_PAGE) {
         renderStartPageComponent({ appEl: appEl });

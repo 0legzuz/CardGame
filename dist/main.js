@@ -155,7 +155,7 @@ function renderGamePageComponent(_a) {
     // Отключение нажатий
     var canClick = false;
     // Изменение стиля разметки под 2-й уровень
-    if (difficulty === '2') {
+    if (difficulty === 2) {
         var gameCardsElement = document.querySelector('.game__cards');
         gameCardsElement.style.width = '750px';
     }
@@ -213,13 +213,13 @@ function renderGamePageComponent(_a) {
                     foundPairs++;
                     if (foundPairs === difficulty * 3) {
                         timerStop();
-                        (0, index_1.setTime)({ newTime: timerEl.textContent });
+                        (0, index_1.setTime)({ newTime: Number(timerEl.textContent) });
                         (0, index_1.goToPage)(routes_1.VICTORY_PAGE);
                     }
                 }
                 else {
                     timerStop();
-                    (0, index_1.setTime)({ newTime: timerEl.textContent });
+                    (0, index_1.setTime)({ newTime: Number(timerEl.textContent) });
                     (0, index_1.goToPage)(routes_1.DEFEAT_PAGE);
                     foundPairs = 0;
                 }
@@ -249,15 +249,16 @@ var routes_1 = __webpack_require__(/*! ./routes */ "./routes.ts");
 var start_page_component_1 = __webpack_require__(/*! ./start-page-component */ "./start-page-component.ts");
 var victory_page_component_1 = __webpack_require__(/*! ./victory-page-component */ "./victory-page-component.ts");
 exports.page = null;
-exports.difficulty = '';
-var time = '';
-var setDifficulty = function (newDifficulty) {
-    exports.difficulty = newDifficulty;
-};
+exports.difficulty = 0;
+var time = 0;
+function setDifficulty(_a) {
+    var newDifficulty = _a.newDifficulty;
+    var difficulty = newDifficulty;
+}
 exports.setDifficulty = setDifficulty;
 var setTime = function (_a) {
     var newTime = _a.newTime;
-    time = newTime;
+    var time = newTime;
 };
 exports.setTime = setTime;
 var goToPage = function (newPage) {
@@ -343,18 +344,18 @@ function renderStartPageComponent(_a) {
     appEl.innerHTML = "\n               <div class=\"container\">\n      <div class=\"selection-form\">\n        <div class=\"selection-form__header\">\n          \u0412\u044B\u0431\u0435\u0440\u0438 <br /> \u0441\u043B\u043E\u0436\u043D\u043E\u0441\u0442\u044C\n        </div>\n        <div class=\"selection-form__card-container\">\n          <input type=\"radio\" id=\"card1\" name=\"cards\" value=\"1\" checked>\n          <label for=\"card1\">1</label>\n          \n          <input type=\"radio\" id=\"card2\" name=\"cards\" value=\"2\">\n          <label for=\"card2\">2</label>\n          \n          <input type=\"radio\" id=\"card3\" name=\"cards\" value=\"3\">\n          <label for=\"card3\">3</label>\n        </div>\n        <button class=\"selection-form__start-button\">\u0421\u0442\u0430\u0440\u0442</button>\n      </div>\n    </div>";
     var getSelectedDifficulty = function () {
         var radioButtons = document.querySelectorAll(".selection-form__card-container input[type='radio']");
-        var selectedDifficulty = 'easy';
+        var selectedDifficulty = 0;
         radioButtons.forEach(function (radio) {
             var inputRadio = radio;
             if (inputRadio.checked) {
-                selectedDifficulty = inputRadio.value;
+                selectedDifficulty = Number(inputRadio.value);
             }
         });
         return selectedDifficulty;
     };
     var selectionFormStartButton = document.querySelector('.selection-form__start-button');
     selectionFormStartButton.addEventListener('click', function (event) {
-        (0, index_1.setDifficulty)(getSelectedDifficulty());
+        (0, index_1.setDifficulty)({ newDifficulty: getSelectedDifficulty() });
         (0, index_1.goToPage)(routes_1.GAME_PAGE);
         event.stopPropagation();
     });
