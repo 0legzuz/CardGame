@@ -1,5 +1,5 @@
-import { goToPage, setDifficulty } from './index.js';
-import { GAME_PAGE } from './routes.js';
+import { goToPage, setDifficulty } from './index';
+import { GAME_PAGE } from './routes';
 
 export function renderStartPageComponent({ appEl }) {
     appEl.innerHTML = `
@@ -23,19 +23,19 @@ export function renderStartPageComponent({ appEl }) {
     </div>`;
 
     const getSelectedDifficulty = () => {
-        const radioButtons = document.querySelectorAll(
+        const radioButtons = document.querySelectorAll<HTMLInputElement>(
             ".selection-form__card-container input[type='radio']",
         );
         let selectedDifficulty = 'easy';
         radioButtons.forEach((radio) => {
-            if (radio.checked) {
-                selectedDifficulty = radio.value;
+            const inputRadio = radio as HTMLInputElement;
+            if (inputRadio.checked) {
+                selectedDifficulty = inputRadio.value;
             }
         });
 
         return selectedDifficulty;
     };
-
     const selectionFormStartButton = document.querySelector(
         '.selection-form__start-button',
     );

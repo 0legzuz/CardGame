@@ -1,6 +1,6 @@
-import { generateCards, shuffleCards } from './game-logics.js';
-import { goToPage, setTime } from './index.js';
-import { DEFEAT_PAGE, START_PAGE, VICTORY_PAGE } from './routes.js';
+import { generateCards, shuffleCards } from './game-logics';
+import { goToPage, setTime } from './index';
+import { DEFEAT_PAGE, START_PAGE, VICTORY_PAGE } from './routes';
 
 function timer(minutes, seconds, countdown, timerEl) {
     function formatTime(num) {
@@ -47,8 +47,8 @@ export function renderGamePageComponent({ appEl, difficulty }) {
             .map(
                 (card) => `
     <div class="game__card" data-suit="${card.suit}" data-rank="${card.rank}">
-    <img src="images/shirt.jpg" alt="Футболка" class="game__card-front">
-    <img src="images/${card.rank} ${card.suit}.jpg" alt="Обратная сторона карточки" class="game__card-back">
+    <img src="static/shirt.jpg" alt="Футболка" class="game__card-front">
+    <img src="static/${card.rank} ${card.suit}.jpg" alt="Обратная сторона карточки" class="game__card-back">
     </div>`,
             )
             .join('');
@@ -84,7 +84,10 @@ export function renderGamePageComponent({ appEl, difficulty }) {
 
     // Изменение стиля разметки под 2-й уровень
     if (difficulty === '2') {
-        document.querySelector('.game__cards').style.width = '750px';
+        const gameCardsElement = document.querySelector(
+            '.game__cards',
+        ) as HTMLElement;
+        gameCardsElement.style.width = '750px';
     }
 
     // Перетосовка карт
@@ -96,8 +99,15 @@ export function renderGamePageComponent({ appEl, difficulty }) {
     // Показ карт для запоминания
     setTimeout(() => {
         gameEl.querySelectorAll('.game__card').forEach((cardEl) => {
-            cardEl.querySelector('.game__card-front').style.display = 'block';
-            cardEl.querySelector('.game__card-back').style.display = 'none';
+            const front = cardEl.querySelector(
+                '.game__card-front',
+            ) as HTMLElement;
+            const back = cardEl.querySelector(
+                '.game__card-back',
+            ) as HTMLElement;
+
+            front.style.display = 'block';
+            back.style.display = 'none';
         });
         // Включение нажатий
         canClick = true;
@@ -116,25 +126,33 @@ export function renderGamePageComponent({ appEl, difficulty }) {
     // Обработка кликов по карточкам
     document
         .querySelector('.game__cards')
-        .addEventListener('click', (event) => {
+        .addEventListener('click', function (event) {
+            // Замените стрелочную функцию на обычную
             if (!canClick) {
                 return;
             }
 
-            const cardEl = event.target.closest('.game__card');
+            // Указать тип event.target как HTMLElement
+            const target = event.target as HTMLElement;
+
+            const cardEl = target.closest('.game__card');
 
             if (
                 !cardEl ||
-                cardEl.querySelector('.game__card-front').style.display ===
-                    'none' ||
+                (cardEl.querySelector('.game__card-front') as HTMLElement).style
+                    .display === 'none' ||
                 firstCard === cardEl ||
                 secondCard === cardEl
             ) {
                 return;
             }
 
-            cardEl.querySelector('.game__card-front').style.display = 'none';
-            cardEl.querySelector('.game__card-back').style.display = 'block';
+            (
+                cardEl.querySelector('.game__card-front') as HTMLElement
+            ).style.display = 'none';
+            (
+                cardEl.querySelector('.game__card-back') as HTMLElement
+            ).style.display = 'block';
 
             if (!firstCard) {
                 firstCard = cardEl;

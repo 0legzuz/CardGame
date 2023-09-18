@@ -1,6 +1,16 @@
 {
-    "tabWidth": 4,
     "semi": true,
+    "tabWidth": 4,
     "singleQuote": true,
-    "endOfLine": "lf"
+    "endOfLine": "lf",
+    "trailingComma": "all",
+    "overrides": [
+        {
+            "files": "*.{ts,tsx}",
+            "options": {
+                "parser": "typescript",
+                "tabWidth": 4
+            }
+        }
+    ]
 }

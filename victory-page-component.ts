@@ -1,7 +1,7 @@
-import { goToPage } from './index.js';
-import { START_PAGE } from './routes.js';
+import { goToPage } from './index';
+import { START_PAGE } from './routes';
 
-export function renderDefeatPageComponent({ appEl, time }) {
+export function renderVictoryPageComponent({ appEl, time }) {
     // Создаем элемент `div` с классом `overlay`
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
@@ -9,20 +9,20 @@ export function renderDefeatPageComponent({ appEl, time }) {
 
     // Вставляем разметку страницы победы в элемент `overlay`
     overlay.innerHTML = `<div class="container">
-      <div class="defeat-form">
-      <img src="images/dead.png">
-        <div class="defeat-form__header">
-          Вы проиграли!
+      <div class="victory-form">
+      <img src="static/celebration.png">
+        <div class="victory-form__header">
+          Вы выиграли!
         </div>
-        <div class="defeat-form__time">
-          <div class="defeat-form__time-text">
+        <div class="victory-form__time">
+          <div class="victory-form__time-text">
             Затраченное время:
           </div>
-          <div class="defeat-form__time-value">
+          <div class="victory-form__time-value">
              ${time}
           </div>
         </div>
-        <button class="defeat-form__restart-button">Играть снова</button>
+        <button class="victory-form__restart-button">Играть снова</button>
       </div>
     </div>`;
 
@@ -31,7 +31,7 @@ export function renderDefeatPageComponent({ appEl, time }) {
 
     // Удаляем `overlay` при нажатии на кнопку "Играть снова"
     overlay
-        .querySelector('.defeat-form__restart-button')
+        .querySelector('.victory-form__restart-button')
         .addEventListener('click', () => {
             overlay.style.backgroundColor = '';
             appEl.removeChild(overlay);

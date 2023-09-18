@@ -2,7 +2,7 @@
 @import url("result-page.css");
 @font-face {
   font-family: stratosskyengweb-regular;
-  src: url("fonts/stratosskyengweb-regular.woff") format("woff");
+  src: url("static/stratosskyengweb-regular.woff") format("woff");
   font-weight: 400;
   font-style: normal;
 }

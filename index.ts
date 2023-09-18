@@ -1,8 +1,8 @@
-import { renderDefeatPageComponent } from './defeat-page-component.js';
-import { renderGamePageComponent } from './game-page-component.js';
-import { START_PAGE, GAME_PAGE, VICTORY_PAGE, DEFEAT_PAGE } from './routes.js';
-import { renderStartPageComponent } from './start-page-component.js';
-import { renderVictoryPageComponent } from './victory-page-component.js';
+import { renderDefeatPageComponent } from './defeat-page-component';
+import { renderGamePageComponent } from './game-page-component';
+import { START_PAGE, GAME_PAGE, VICTORY_PAGE, DEFEAT_PAGE } from './routes';
+import { renderStartPageComponent } from './start-page-component';
+import { renderVictoryPageComponent } from './victory-page-component';
 
 export let page = null;
 
