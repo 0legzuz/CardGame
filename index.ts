@@ -14,11 +14,10 @@ export function setDifficulty({
 }: {
     newDifficulty: number;
 }): void {
-    let difficulty: number = newDifficulty;
+    difficulty = newDifficulty;
 }
-
 export const setTime = ({ newTime }: { newTime: number }): void => {
-    let time: number = newTime;
+    time = newTime;
 };
 
 export const goToPage = (newPage: string): void => {
@@ -48,7 +47,7 @@ export const goToPage = (newPage: string): void => {
 };
 
 export const renderApp = (): void => {
-    const appEl = document.getElementById('app');
+    const appEl = document.getElementById('app') as HTMLElement;
     if (page === START_PAGE) {
         renderStartPageComponent({ appEl: appEl });
     }
