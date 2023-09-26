@@ -1,6 +1,5 @@
-import { goToPage, page, renderApp } from './index';
+import { goToPage, page } from './index';
 import { START_PAGE } from './routes';
-import { renderStartPageComponent } from './start-page-component';
 
 // Мокаем зависимость renderStartPageComponent
 jest.mock('./start-page-component', () => ({
